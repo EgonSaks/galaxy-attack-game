@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Galaxy Attack Game - Play the classic game and defeat the alien invaders. Move your spaceship, shoot projectiles, and try to get the highest score.">
+    <link rel="stylesheet" href="style.css">
+    <title>Galaxy Attack</title>
+</head>
+<body>
+    <div class="wrapper">
+        <header></header>      
+        <div class="game-wrapper">          
+            <div class="main">              
+                <div id="score-board">
+                    <span id="fps">FPS: 00</span>
+                    <span id="timer">Timer: 00:00</span>
+                    <span id="score">Score: 0</span>
+                    <span id="lives">Lives: 3</span>
+                </div>  
+            </div>  
+            <div class="lose">
+                <h1>GAME OVER</h1>
+                <h2>You lost the game</h2>
+                <h2>To replay, press ' r '</h2>
+            </div>
+            <div class="win">
+                <h1>Congratulations!</h1>
+                <h2>You won the game</h2>
+                <h2>To replay, press ' r '</h2>
+            </div>        
+        </div>
+       <div class="game-controls">
+        <span>
+            <strong>Start: </strong>Press the "Enter" key to start the game.
+        </span>   
+        <span>
+            <strong>Pause/Continue: </strong>Press the ' p ' or ' P ' key to pause the game during gameplay, or resume the game after pausing.
+        </span>
+
+        <span>
+            <strong>Movement: </strong>Use the arrow keys or the left/right keys to move your spaceship horizontally across the bottom of the screen. Navigate swiftly to avoid enemy fire and position yourself strategically.
+        </span>
+        <span>
+            <strong>Shooting: </strong>Press the spacebar or a designated key to shoot projectiles from your spaceship. Aim accurately and time your shots to destroy the descending alien invaders. 
+        </span>
+        <span>
+            <strong>Reload: </strong>If you want to restart the game, simply press the ' r ' or ' R ' key. 
+        </span>
+
+       </div>
+        
+        <footer>Egon &copy; <span id="copyright-year">2022</span></footer>
+
+        <script src="main.js" defer></script>  
+    </div>     
+</body>
+</html>
