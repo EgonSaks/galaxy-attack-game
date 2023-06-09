@@ -181,11 +181,11 @@ function updateEnemies(container, deltaTime) {
         const y = enemyObject.y + dy + 50;
         setPosition(enemyObject.enemy, x, y);
 
-        if (enemyObject.enemyCooldown <= 0){ 
-            createEnemyWeapon(container, x, y);
-            enemyObject.enemyCooldown = 100;
+        if (enemyObject.enemyCooldown <= 0) {
+                createEnemyWeapon(container, x, y);
+            enemyObject.enemyCooldown = (Math.floor(Math.random() * 300) + 100) * (Math.random() * 1.2 + 0.4);
         }
-        
+
         enemyObject.enemyCooldown -= 30 * deltaTime;
     }
 }
