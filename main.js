@@ -258,16 +258,15 @@ function handleKeyPress(event) {
         console.log('Game started');
         window.requestAnimationFrame(update);
     } else if (event.keyCode === gameConstants.KEY_P) {
-            if (isGamePaused) {
-                accumulatedPauseTime += performance.now() - pauseStartTime;
-                isGamePaused = false;
-                if (!gameStatus.gameOver && gameStatus.lives > 0 && enemyState.enemies.length > 0) {
-                    window.requestAnimationFrame(update);
-                }
-            } else {
-                isGamePaused = true;
-                pauseStartTime = performance.now(); 
-            }            
+        if (isGamePaused) {
+            accumulatedPauseTime += performance.now() - pauseStartTime;
+            isGamePaused = false;
+            lastUpdateTime = performance.now(); 
+            window.requestAnimationFrame(update);
+        } else {
+            isGamePaused = true;
+            pauseStartTime = performance.now();
+        }
     } else if (event.keyCode === gameConstants.KEY_RIGHT) {
         playerState.isMovingRight = true;
     } else if (event.keyCode === gameConstants.KEY_LEFT) {
@@ -277,7 +276,6 @@ function handleKeyPress(event) {
     } else if (event.keyCode === gameConstants.KEY_R) {
         window.location.reload();
     }
-
 }
 
 function handleKeyRelease(event) {
@@ -292,8 +290,7 @@ function handleKeyRelease(event) {
 
 // Timer
 function updateTimer() {
-    const currentTime = performance.now();
-    const elapsedTime = Math.round((currentTime - gameConstants.STARTTIME - accumulatedPauseTime) / 1000);
+    const elapsedTime = Math.round(gameTime);  
 
     const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
     const seconds = (elapsedTime % 60).toString().padStart(2, '0');
@@ -318,40 +315,44 @@ function updateLives() {
 }
 
 // Main Update Function
-let lastFrameTime = performance.now();
 const fpsElement = document.getElementById('fps');
+let gameTime = 0;
+let lastUpdateTime = performance.now();
+let pauseStartTime = 0;
 
 function update(currentTime) {
-  // Calculate time elapsed since the last frame
-  const deltaTime = (currentTime - lastFrameTime) / 1000; // Convert to seconds
 
-  // Update FPS element
-  const fps = Math.round(1 / deltaTime);
-  fpsElement.textContent = `FPS: ${fps}`;
-
-  if (!isGameStarted || isGamePaused) {
-    return;
-  }
-
-  // Call other update functions
-  updateTimer();
-
-  updatePlayer(deltaTime);
-  updateWeapon(container);
-  updateEnemies(container, deltaTime);
-  updateEnemyWeapon(deltaTime);
-
-  // Request the next frame
-  lastFrameTime = currentTime;
-  if (!gameStatus.gameOver && gameStatus.lives > 0 && enemyState.enemies.length > 0) {
-    window.requestAnimationFrame(update);
-  } else {
-    if (gameStatus.lives === 0) {
-      document.querySelector('.lose').style.display = 'block';
-    } else if (enemyState.enemies.length === 0) {
-      document.querySelector('.win').style.display = 'block';
+    if (!isGameStarted) {
+        return;  
     }
-  }
+
+    if (!isGamePaused) {
+        const deltaTime = (currentTime - lastUpdateTime) / 1000;
+        gameTime += deltaTime;  
+        lastUpdateTime = currentTime; 
+
+        // Update FPS element
+        const fps = Math.round(1 / deltaTime);
+        fpsElement.textContent = `FPS: ${fps}`;
+
+        // Call other update functions
+        updateTimer();
+        updatePlayer(deltaTime);
+        updateWeapon(container);
+        updateEnemies(container, deltaTime);
+        updateEnemyWeapon(deltaTime);
+
+        // Request the next frame
+        if (!gameStatus.gameOver && gameStatus.lives > 0 && enemyState.enemies.length > 0) {
+            window.requestAnimationFrame(update);
+        } else {
+            if (gameStatus.lives === 0) {
+                document.querySelector('.lose').style.display = 'block';
+            } else if (enemyState.enemies.length === 0) {
+                document.querySelector('.win').style.display = 'block';
+            }
+        }
+    }
 }
 
 // Init. Game
