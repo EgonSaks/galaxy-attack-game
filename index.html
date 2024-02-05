@@ -7,6 +7,24 @@
     <meta name="description" content="Galaxy Attack Game - Play the classic game and defeat the alien invaders. Move your spaceship, shoot projectiles, and try to get the highest score.">
     <link rel="stylesheet" href="style.css">
     <title>Galaxy Attack</title>
+    <script>
+        // Disable the right-click context menu
+        document.addEventListener("contextmenu", e => e.preventDefault(), false);
+
+        document.addEventListener("keydown", e => {
+            // Disable Control and F12
+            if (e.ctrlKey || e.keyCode === 123) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+    
+            // Disable Cmd+Option+I (Inspect Element) and Cmd+Option+U (View Page Source) on Mac
+            if ((e.metaKey || e.ctrlKey) && e.altKey && (e.keyCode === 73 || e.keyCode === 85)) {
+                e.preventDefault();
+                console.log("Inspect Element and View Page Source shortcuts disabled");
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="wrapper">
